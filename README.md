@@ -1,57 +1,61 @@
-# Single server with infinite capacity (M/M/1):(oo/FIFO)
-## Aim :
-To find (a) average number of materials in the system (b) average number of materials in the conveyor (c) waiting time of each material in the system (d) waiting time of each material in the conveyor, if the arrival  of materials follow poisson process with the mean interval time 12 seconds, serivice time of lathe machine follows exponential distribution with mean serice time 1 second and average service time of robot is 7seconds.
+# Correlation and regression for data analysis
+# Aim : 
 
-## Software required :
-Visual components and Python
+To analyse given data using coeffificient of correlation and regression line
+![image](https://user-images.githubusercontent.com/104613195/168224136-d6b64e64-7d3d-4775-9337-c8f96fe41f2d.png)
 
-## Theory:
-Queuing are the most frequently encountered problems in everyday life. For example, queue at a cafeteria, library, bank, etc. Common to all of these cases are the arrivals of objects requiring service and the attendant delays when the service mechanism is busy. Waiting lines cannot be eliminated completely, but suitable techniques can be used to reduce the waiting time of an object in the system. A long waiting line may result in loss of customers to an organization. Waiting time can be reduced by providing additional service facilities, but it may result in an increase in the idle time of the service mechanism.
 
-![image](1.png)
+# Software required :  
 
-This is a queuing model in which the arrival is Marcovian and departure distribution is also Marcovian,number of server is one and size of the queue is also Marcovian,no.of server is one and size of the queue is infinite and service discipline is 1st come 1st serve(FCFS) and the calling source is also finite.
+### Python
 
-## Procedure :
+# Theory:
 
-![imAGE](2.png)
+Correlation describes the strength of an association between two variables, and is completely symmetrical, the correlation between A and B is the same as the correlation between B and A. However, if the two variables are related it means that when one changes by a certain amount the other changes on an average by a certain amount.  
 
-## Experiment:
-![Exp 4 1](https://github.com/21003698/Single-server-infinite-capacity---Markov-Model/assets/93427522/2960ee3e-7325-4e09-85e1-ae816ceaaab3)
+If y represents the dependent variable and x the independent variable, this relationship is described as the regression of y on x. The relationship can be represented by a simple equation called the regression equation. The regression equation representing how much y changes with any given change of x can be used to construct a regression line on a scatter diagram, and in the simplest case this is assumed to be a straight line.
 
-![Exp 4 2](https://github.com/21003698/Single-server-infinite-capacity---Markov-Model/assets/93427522/f5b111fa-a1b3-47ce-b862-a071560beec0)
+# Procedure :
 
-## Program
+![image](https://user-images.githubusercontent.com/104613195/168225866-ac8f6610-bdc3-4ac2-a24e-2b24ba08e189.png)
+
+# Program :
 ```python
-arr_time=float(input("Enter the mean inter arrival time of objects from Feeder (in secs): "))
-ser_time=float(input("Enter the mean  inter service time of Lathe Machine (in secs) :  "))
-Robot_time=float(input("Enter the Additional time taken for the Robot (in secs) :  "))
-lam=1/arr_time
-mu=1/(ser_time+Robot_time)
-print("--------------------------------------------------------------")
-print("Single Server with Infinite Capacity - (M/M/1):(oo/FIFO)")
-print("--------------------------------------------------------------")
-print("The mean arrival rate per second : %0.2f "%lam)
-print("The mean service rate per second : %0.2f "%mu)
-if (lam <  mu):
-    Ls=lam/(mu-lam)
-    Lq=Ls-lam/mu
-    Ws=Ls/lam
-    Wq=Lq/lam
-    print("Average number of objects in the system : %0.2f "%Ls)
-    print("Average number of objects in the conveyor :  %0.2f "%Lq)
-    print("Average waiting time of an object in the system : %0.2f secs"%Ws)
-    print("Average waiting time of an object in the conveyor : %0.2f secs"%Wq)
-    print("Probability that the system is busy : %0.2f "%(lam/mu) )
-    print("Probability that the system is empty : %0.2f "%(1-lam/mu) )
-else:
-    print("Warning! Objects Over flow will happen in the conveyor")
-print("---------------------------------------------------------------")
+import numpy as np
+import math
+import matplotlib.pyplot as plt
+x=[ int(i) for i in input().split()]
+y=[ int(i) for i in input().split()]
+N=len(x)
+Sx=0
+Sy=0
+Sxy=0
+Sx2=0
+Sy2=0
+for i in range(0,N):
+    Sx=Sx+x[i]
+    Sy=Sy+y[i]
+    Sxy=Sxy+x[i]*y[i]
+    Sx2=Sx2+x[i]**2
+    Sy2=Sy2+y[i]**2
+r=(N*Sxy-Sx*Sy)/(math.sqrt(N*Sx2-Sx**2)*math.sqrt(N*Sy2-Sy**2))
+print("The Correlation coefficient is %0.3f"%r)
+byx=(N*Sxy-Sx*Sy)/(N*Sx2-Sx**2)
+xmean=Sx/N
+ymean=Sy/N
+print("The Regression line Y on X is ::: y = %0.3f + %0.3f (x-%0.3f)"%(ymean,byx,xmean))
+plt.scatter(x,y)
+def Reg(x):
+  return ymean + byx*(x-xmean)
+x=np.linspace(20,80,51)
+y1=Reg(x)
+plt.plot(x,y1,'r')
+plt.xlabel('x-data')
+plt.ylabel('y-data')
+plt.legend(['Regression Line','Data points'])
 ```
+# Output
+![Exp 3](https://github.com/21003698/Correlation_Regression/assets/93427522/b7d1840e-940b-4520-ab4a-667348f111a6)
 
-## Output :
-![out](https://github.com/21003698/Single-server-infinite-capacity---Markov-Model/assets/93427522/56a83ac2-cbd6-41e5-a0ab-788d37c1160d)
-
-
-## Result :
-The average number of material in the sysytem and in the conveyor and waiting time are successfully found.
+# Result 
+The Correlation and regression for data analysis of objects from feeder using probability distribution are calculated.
